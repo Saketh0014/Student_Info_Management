@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Student Search</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="search-page">
+    <div class="container">
+        <h1>Student Search</h1>
+        <form id="searchForm">
+            <label for="id">Student ID:</label>
+            <input type="text" id="id" name="id" />
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" />
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" min="1" />
+
+            <button type="submit">Search</button>
+        </form>
+        <div id="createLink" style="margin-top: 10px;">
+            <p><a href="new_admission.html">Create new admission</a></p>
+            <p><a href="modify.html">Modify Data</a></p>
+        </div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('searchForm');
+        const resultDiv = document.getElementById('result');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            resultDiv.innerHTML = '';
+
+            const id = form.id.value.trim();
+            const name = form.name.value.trim();
+            const age = form.age.value.trim();
+
+            if (!id && !name && !age) {
+                resultDiv.innerHTML = '<p>Please enter at least one search criteria.</p>';
+                return;
+            }
+
+            const params = new URLSearchParams();
+            if (id) params.append('id', id);
+            if (name) params.append('name', name);
+            if (age) params.append('age', age);
+
+            try {
+                const response = await fetch(`http://localhost:5000/students?${params.toString()}`);
+                // Fill the form inputs with the search values
+                form.id.value = id;
+                form.name.value = name;
+                form.age.value = age;
+
+                if (response.status === 404) {
+                    resultDiv.innerHTML = '<p>No student found.</p>';
+                } else if (response.ok) {
+                    const students = await response.json();
+                    let html = '<h2>Student Details</h2>';
+                    html += '<table><thead><tr><th>ID</th><th>Name</th><th>Age</th><th>Class</th><th>Grade</th><th>Email</th><th>Phone</th></tr></thead><tbody>';
+                    students.forEach(student => {
+                        html += `<tr>
+                            <td>${student.id}</td>
+                            <td>${student.name}</td>
+                            <td>${student.age}</td>
+                            <td>${student.class}</td>
+                            <td>${student.grade}</td>
+                            <td>${student.email || ''}</td>
+                            <td>${student.phone || ''}</td>
+                        </tr>`;
+                    });
+                    html += '</tbody></table>';
+                    resultDiv.innerHTML = html;
+                } else {
+                    resultDiv.innerHTML = '<p>Error fetching data.</p>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = '<p>Failed to connect to server.</p>';
+            }
+        });
+    </script>
+</body>
+</html>

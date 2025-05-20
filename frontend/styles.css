@@ -1,0 +1,110 @@
+/* Reset all existing styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body with black background and light text */
+body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Container to center content and limit width */
+.container {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+/* Center align titles */
+h1 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Center align forms and their elements */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* Labels and inputs styling */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: left;
+    width: 100%;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    color: black;
+}
+
+/* Buttons styling */
+button {
+    padding: 10px 20px;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #666;
+}
+
+/* Center align links */
+a {
+    color: white;
+    text-decoration: underline;
+    display: inline-block;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+/* Table styling for search results */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    color: white;
+}
+
+th, td {
+    border: 1px solid #555;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #333;
+}
+
+/* Success and error messages */
+.success {
+    color: #4CAF50;
+}
+
+.error {
+    color: #f44336;
+}
